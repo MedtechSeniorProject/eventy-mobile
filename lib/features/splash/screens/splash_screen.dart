@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:eventy_mobile/features/auth/providers/user_provider.dart';
 import 'package:eventy_mobile/features/auth/screens/login_screen.dart';
 import 'package:eventy_mobile/features/scan/screens/scan_screen.dart';
@@ -29,14 +31,13 @@ class _SplashScreenState extends State<SplashScreen> {
   void navigate() {
     Future.delayed(const Duration(seconds: 3), () {
       UserPreferences().getDeskAgent().then((value) {
-        if (value.deskAgent!.id == '') {
+        if (value.deskAgent!.id == null) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const LoginScreen()),
           );
-          //TOFIX: routing names
+          //TODO: routing names
           // Navigator.pushNamed(context, '/login');
-          // PageNavigator(ctx: context).nextPageOnly(page: const LoginPage());
         } else {
           Provider.of<UserProvider>(context!, listen: false).setUser(value);
 
