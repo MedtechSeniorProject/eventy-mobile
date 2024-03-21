@@ -59,7 +59,7 @@ class ScanProvider extends ChangeNotifier {
         notifyListeners();
         setAttendeeDetails(attendeeResponseModel);
 
-        Navigator.push(context!,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const DetailsScreen()));
       } else {
         //for debugging, to remove
