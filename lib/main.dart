@@ -20,15 +20,9 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
-      child: MaterialApp(
-        theme: ThemeData(
-            appBarTheme: AppBarTheme(
-              color: AppColors.primary,
-            ),
-            floatingActionButtonTheme: FloatingActionButtonThemeData(
-                backgroundColor: AppColors.primary),
-            primaryColor: AppColors.primary),
-        home: const SplashScreen(),
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
       ),
     );
   }

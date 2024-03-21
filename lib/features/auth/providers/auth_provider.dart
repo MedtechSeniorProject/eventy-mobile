@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:eventy_mobile/features/home/screens/scan_screen.dart';
+import 'package:eventy_mobile/features/scan/screens/scan_screen.dart';
 import 'package:eventy_mobile/shared/utils/app_url.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
 import 'user_provider.dart';
 
 class AuthenticationProvider extends ChangeNotifier {

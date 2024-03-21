@@ -3,14 +3,7 @@ import 'package:eventy_mobile/features/auth/widgets/custom_textfield.dart';
 import 'package:eventy_mobile/shared/utils/snack_message.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/custom_button.dart';
-// import 'package:rest_api_app/Provider/AuthProvider/auth_provider.dart';
-// import 'package:rest_api_app/Screens/Authentication/register.dart';
-// import 'package:rest_api_app/Utils/routers.dart';
-// import 'package:rest_api_app/Utils/snack_message.dart';
-// import 'package:rest_api_app/Widgets/button.dart';
-// import 'package:rest_api_app/Widgets/text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
