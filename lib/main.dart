@@ -1,5 +1,6 @@
 import 'package:eventy_mobile/features/auth/providers/auth_provider.dart';
 import 'package:eventy_mobile/features/auth/providers/user_provider.dart';
+import 'package:eventy_mobile/features/scan/providers/scan_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,7 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => ScanProvider()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

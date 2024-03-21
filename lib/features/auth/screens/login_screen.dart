@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ///Button
                     Consumer<AuthenticationProvider>(
                         builder: (context, auth, child) {
-                      WidgetsBinding.instance!.addPostFrameCallback((_) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
                         if (auth.resMessage != '') {
                           showMessage(
                               message: auth.resMessage, context: context);
@@ -80,14 +80,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     PageNavigator(ctx: context)
-                    //         .nextPage(page: const RegisterPage());
-                    //   },
-                    //   child: const Text('Register Instead'),
-                    // )
                   ],
                 )),
           )
