@@ -26,65 +26,57 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login ')),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  children: [
-                    customTextField(
-                      title: 'username',
-                      controller: _username,
-                      hint: 'Enter your username',
-                    ),
-                    customTextField(
-                      title: 'Password',
-                      controller: _password,
-                      hint: 'Enter your password',
-                    ),
+        body: Container(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Login"),
+                customTextField(
+                  title: 'username',
+                  controller: _username,
+                  hint: 'Enter your username',
+                ),
+                customTextField(
+                  title: 'Password',
+                  controller: _password,
+                  hint: 'Enter your password',
+                ),
 
-                    ///Button
-                    Consumer<AuthenticationProvider>(
-                        builder: (context, auth, child) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        if (auth.resMessage != '') {
-                          showMessage(
-                              message: auth.resMessage, context: context);
+                ///Button
+                Consumer<AuthenticationProvider>(
+                    builder: (context, auth, child) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (auth.resMessage != '') {
+                      showMessage(message: auth.resMessage, context: context);
 
-                          ///Clear the response message to avoid duplicate
-                          auth.clear();
-                        }
-                      });
-                      return customButton(
-                        text: 'Login',
-                        tap: () {
-                          if (_username.text.isEmpty ||
-                              _password.text.isEmpty) {
-                            showMessage(
-                                message: "All fields are required",
-                                context: context);
-                          } else {
-                            auth.loginUser(
-                                context: context,
-                                username: _username.text.trim(),
-                                password: _password.text.trim());
-                          }
-                        },
-                        context: context,
-                        status: auth.isLoading,
-                      );
-                    }),
+                      ///Clear the response message to avoid duplicate
+                      auth.clear();
+                    }
+                  });
+                  return customButton(
+                    text: 'Login',
+                    tap: () {
+                      if (_username.text.isEmpty || _password.text.isEmpty) {
+                        showMessage(
+                            message: "All fields are required",
+                            context: context);
+                      } else {
+                        auth.loginUser(
+                            context: context,
+                            username: _username.text.trim(),
+                            password: _password.text.trim());
+                      }
+                    },
+                    context: context,
+                    status: auth.isLoading,
+                  );
+                }),
 
-                    const SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                )),
-          )
-        ],
-      ),
-    );
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            )));
   }
 }
