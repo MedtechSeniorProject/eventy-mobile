@@ -1,6 +1,5 @@
 import 'package:eventy_mobile/features/auth/providers/auth_provider.dart';
 import 'package:eventy_mobile/features/auth/providers/user_provider.dart';
-import 'package:eventy_mobile/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

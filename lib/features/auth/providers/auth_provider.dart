@@ -1,17 +1,24 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
+import 'package:eventy_mobile/features/auth/models/desk_agent_model.dart';
+import 'package:eventy_mobile/features/auth/providers/user_provider.dart';
+import 'package:eventy_mobile/features/auth/screens/login_screen.dart';
 import 'package:eventy_mobile/features/scan/screens/scan_screen.dart';
 import 'package:eventy_mobile/shared/utils/app_url.dart';
+import 'package:eventy_mobile/shared/utils/shared_prefrences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'user_provider.dart';
+import 'package:provider/provider.dart';
 
 class AuthenticationProvider extends ChangeNotifier {
-  ///Setter
+  Future<DeskAgentModel> getUserData() => UserPreferences().getDeskAgent();
+
+  ///Setters
   bool _isLoading = false;
   String _resMessage = '';
 
-  //Getter
+  //Getters
   bool get isLoading => _isLoading;
   String get resMessage => _resMessage;
 
@@ -31,27 +38,32 @@ class AuthenticationProvider extends ChangeNotifier {
           body: jsonEncode(body),
           headers: {"Content-Type": "application/json"});
       if (req.statusCode == 200 || req.statusCode == 201) {
-        final res = json.decode(req.body);
-        print("Successss");
-        print(res);
+        final Map<String, dynamic> res = json.decode(req.body);
+        //for debugging, to remove
+        log("Successss");
+        print("response body : ${res.toString()}");
         _isLoading = false;
         _resMessage = "Login successfull!";
+
+        // now we will create a deskagent model
+        DeskAgentModel authUser = DeskAgentModel.fromJson(res);
+
+        // save data to shared preferences
+        UserPreferences().saveDeskAgent(authUser);
         notifyListeners();
 
-        ///Save deskagent id and then navigate to scan screen
-        final userId = res['deskAgent']['id'];
-        UserProvider().saveUserId(userId);
+        //setting the deskAgentModel from the UserProvider
+        Provider.of<UserProvider>(context!, listen: false).setUser(authUser);
 
-        Navigator.push(
-          context!,
-          MaterialPageRoute(builder: (context) => const ScanScreen()),
-        );
+        Navigator.push(context!,
+            MaterialPageRoute(builder: (context) => const ScanScreen()));
       } else {
         final res = json.decode(req.body);
-
         _resMessage = res['message'];
-        print("FAILLLLL");
-        print(res);
+
+        //for debugging, to remove
+        log("FAILLLLL");
+        log(res);
         _isLoading = false;
         notifyListeners();
       }
@@ -68,9 +80,16 @@ class AuthenticationProvider extends ChangeNotifier {
     }
   }
 
+  void logOut(BuildContext context) async {
+    UserPreferences().clearPrefrences();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
+  }
+
   void clear() {
     _resMessage = "";
-    // _isLoading = false;
     notifyListeners();
   }
 }

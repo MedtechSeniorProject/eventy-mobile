@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//TOFIX: change app colors
 class AppColors {
   /// App primary color
   static const Color primary = Color(0xff199A8E);

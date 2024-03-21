@@ -1,7 +1,9 @@
 import 'package:eventy_mobile/features/auth/providers/user_provider.dart';
 import 'package:eventy_mobile/features/auth/screens/login_screen.dart';
-import 'package:eventy_mobile/features/home/screens/scan_screen.dart';
+import 'package:eventy_mobile/features/scan/screens/scan_screen.dart';
+import 'package:eventy_mobile/shared/utils/shared_prefrences.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -20,26 +22,28 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(child: FlutterLogo()),
+      body: Center(child: Image(image: AssetImage("assets/eventy.png"))),
     );
   }
 
   void navigate() {
     Future.delayed(const Duration(seconds: 3), () {
-      UserProvider().getUserId().then((value) {
-        if (value == '') {
+      UserPreferences().getDeskAgent().then((value) {
+        if (value.deskAgent!.id == '') {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const LoginScreen()),
           );
+          //TOFIX: routing names
           // Navigator.pushNamed(context, '/login');
           // PageNavigator(ctx: context).nextPageOnly(page: const LoginPage());
         } else {
+          Provider.of<UserProvider>(context!, listen: false).setUser(value);
+
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const ScanScreen()),
           );
-          // PageNavigator(ctx: context).nextPageOnly(page: const HomePage());
         }
       });
     });

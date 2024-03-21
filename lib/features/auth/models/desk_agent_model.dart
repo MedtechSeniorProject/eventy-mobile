@@ -1,3 +1,9 @@
+/* 
+// Example Usage
+Map<String, dynamic> map = jsonDecode(<myJSONString>);
+var  myDeskAgentModel = DeskAgentModel.fromJson(map);
+*/
+
 class DeskAgentModel {
   DeskAgent? deskAgent;
 

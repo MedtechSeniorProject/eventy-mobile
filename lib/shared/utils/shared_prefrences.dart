@@ -1,31 +1,47 @@
+import 'dart:developer';
+
 import 'package:eventy_mobile/features/auth/models/desk_agent_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-// We will use the shared_preferences package to store user's data locally
+// We will use the shared_preferences package to store the users' data locally
 
 class UserPreferences {
-  Future<bool> saveDeskAgent(DeskAgentModel user) async {
+  //
+  Future<bool> saveDeskAgent(DeskAgentModel deskAgentModel) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setString('userId', user.deskAgent!.id!);
-    prefs.setString('userName', user.deskAgent!.username!);
-    prefs.setString('eventName', user.deskAgent!.event!.name!);
-
+    prefs.setString('userId', deskAgentModel.deskAgent!.id!);
+    prefs.setString('userName', deskAgentModel.deskAgent!.username!);
+    prefs.setString('eventId', deskAgentModel.deskAgent!.event!.id!);
+    prefs.setString('eventName', deskAgentModel.deskAgent!.event!.name!);
+    log("shared prefrences");
+    print("sharedddd: ${deskAgentModel.deskAgent!.id!}");
     return prefs.commit();
   }
 
-  Future<DeskAgent> getUser() async {
+  //
+  Future<DeskAgentModel> getDeskAgent() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String? userId = prefs.getString("userId");
-    String? name = prefs.getString("userName");
-    String? event = prefs.getString("event");
+    String? username = prefs.getString("userName");
+    String? eventId = prefs.getString("eventId");
+    String? eventname = prefs.getString("eventName");
 
-    return DeskAgent(
-      id: userId,
-      username: name,
-      //TOFIX
-      // event: event,
+    return DeskAgentModel(
+      deskAgent: DeskAgent(
+        id: userId,
+        username: username,
+        event: Event(
+          id: eventId,
+          name: eventname,
+        ),
+      ),
     );
+  }
+
+  //
+  void clearPrefrences() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
   }
 }
