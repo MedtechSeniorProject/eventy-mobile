@@ -12,8 +12,6 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class AuthenticationProvider extends ChangeNotifier {
-  Future<DeskAgentModel> getUserData() => UserPreferences().getDeskAgent();
-
   ///Setters
   bool _isLoading = false;
   String _resMessage = '';

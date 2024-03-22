@@ -1,3 +1,4 @@
+import 'package:eventy_mobile/features/add_manually/providers/add_attendee_provider.dart';
 import 'package:eventy_mobile/features/auth/providers/auth_provider.dart';
 import 'package:eventy_mobile/features/auth/providers/user_provider.dart';
 import 'package:eventy_mobile/features/scan/providers/scan_provider.dart';
@@ -20,6 +21,7 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => ScanProvider()),
+        ChangeNotifierProvider(create: (_) => AddAttendeeProvider()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:eventy_mobile/features/add_manually/screens/add_manually_screen.dart';
 import 'package:eventy_mobile/features/auth/providers/auth_provider.dart';
 import 'package:eventy_mobile/features/auth/providers/user_provider.dart';
 import 'package:eventy_mobile/features/auth/widgets/custom_button.dart';
@@ -113,52 +114,77 @@ class _ScanScreenState extends State<ScanScreen> {
                         // ),
 
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            //consumer button
-                            Consumer<ScanProvider>(
-                                builder: (context, scan, child) {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                if (scan.resMessage != '') {
-                                  showMessage(
-                                      message: scan.resMessage,
-                                      context: context);
-                                  scan.clear();
-                                }
-                              });
-                              return customButton(
-                                text: 'scan code',
-                                tap: () async {
-                                  if (result!.code!.isEmpty) {
-                                    showMessage(
-                                        message: "Invalid code",
-                                        context: context);
-                                  } else {
-                                    await controller?.pauseCamera();
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                //consumer button
+                                Consumer<ScanProvider>(
+                                    builder: (context, scan, child) {
+                                  WidgetsBinding.instance
+                                      .addPostFrameCallback((_) {
+                                    if (scan.resMessage != '') {
+                                      showMessage(
+                                          message: scan.resMessage,
+                                          context: context);
+                                      scan.clear();
+                                    }
+                                  });
+                                  return SizedBox(
+                                    width: 150,
+                                    child: customButton(
+                                      text: 'scan code',
+                                      tap: () async {
+                                        if (result!.code!.isEmpty) {
+                                          showMessage(
+                                              message: "Invalid code",
+                                              context: context);
+                                        } else {
+                                          await controller?.pauseCamera();
 
-                                    scan.checkinAttendee(
-                                      attendeeId: result!.code!,
+                                          scan.checkinAttendee(
+                                            attendeeId: result!.code!,
+                                            context: context,
+                                          );
+                                        }
+                                      },
                                       context: context,
-                                    );
-                                  }
-                                },
-                                context: context,
-                                status: scan.isLoading,
-                              );
-                            }),
+                                      status: scan.isLoading,
+                                    ),
+                                  );
+                                }),
 
-                            //
+                                //
+                                Container(
+                                  margin: const EdgeInsets.all(8),
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      // await controller?.resumeCamera();
+                                      await controller?.pauseCamera();
+                                    },
+                                    child: const Text('resume',
+                                        style: TextStyle(fontSize: 20)),
+                                  ),
+                                )
+                              ],
+                            ),
                             Container(
                               margin: const EdgeInsets.all(8),
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  await controller?.resumeCamera();
+                                  await controller?.pauseCamera();
+
+                                  Navigator.push(
+                                      context!,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const AddManuallyScreen()));
                                 },
-                                child: const Text('resume',
+                                child: const Text('Add Manually',
                                     style: TextStyle(fontSize: 20)),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ],
