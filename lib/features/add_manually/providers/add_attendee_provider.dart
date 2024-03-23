@@ -49,20 +49,6 @@ class AddAttendeeProvider extends ChangeNotifier {
         _isLoading = false;
         _resMessage = "added attendee successfully!";
         notifyListeners();
-
-        //TO either find a way to pass changeNotifier (provider) param to details screen (either scanProvider or addAttendeeProvider)
-        // ----> or just stick to sucess alert dialog
-        //      --> IF yes, remove below
-        // // now we will create a attendee response model
-        // AttendeeResponseModel attendeeResponseModel =
-        //     AttendeeResponseModel.fromJson(res);
-
-        // attendeeResponseModel = attendeeResponseModel;
-        // notifyListeners();
-        // setAttendeeDetails(attendeeResponseModel);
-
-        // Navigator.push(context,
-        //     MaterialPageRoute(builder: (context) => const DetailsScreen()));
       } else {
         final res = json.decode(req.body);
         _resMessage = res['message'];
@@ -97,3 +83,6 @@ class AddAttendeeProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+
+//@SAHAR: if we decide to display details screen after manually adding a user --> remove addAttendeeProvider and merge it into ScanProvider : just add the AddAttendee() fct to ScanProvider and then you can use the detailsScreen (which uses the ScanProvider to get the detailsScreen info)
