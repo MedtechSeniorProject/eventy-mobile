@@ -10,11 +10,6 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class ScanProvider extends ChangeNotifier {
-  //TOREMOVE
-  //NOTE: should NOT need bearer token to checkin attendee since no token is returned for deskagents
-  final token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uS2V5IjoiODI4NmVkM2YtMzlhMi00ZDdmLWFhYWUtZmY4NzUzMjVkODg5IiwidXNlcklkIjoiOWIxOGVkY2QtMGYyNi00Nzk2LWI3MWMtMGVkMTdjZjE0NGQ4Iiwicm9sZSI6ImV2ZW50bWFuYWdlciIsImlhdCI6MTcxMDk5MDI3NiwiZXhwIjoxNzExMDc2Njc2fQ.HhRm8hrLyM49U4wfLut7D3Lt-dK1eEzKe7WuJ7P4uaM";
-
   ///Setters
   bool _isLoading = false;
   String _resMessage = '';
@@ -35,6 +30,7 @@ class ScanProvider extends ChangeNotifier {
 
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final eventID = userProvider.deskAgent.deskAgent!.event!.id;
+    final accessToken = userProvider.deskAgent.accessToken;
     final body = {"attendeeId": attendeeId};
 
     try {
@@ -42,7 +38,7 @@ class ScanProvider extends ChangeNotifier {
           body: jsonEncode(body),
           headers: {
             "Content-Type": "application/json",
-            'Authorization': 'Bearer $token',
+            'Authorization': 'Bearer $accessToken',
           });
       if (req.statusCode == 200 || req.statusCode == 201) {
         final Map<String, dynamic> res = json.decode(req.body);

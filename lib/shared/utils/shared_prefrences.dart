@@ -13,8 +13,11 @@ class UserPreferences {
     prefs.setString('userName', deskAgentModel.deskAgent!.username!);
     prefs.setString('eventId', deskAgentModel.deskAgent!.event!.id!);
     prefs.setString('eventName', deskAgentModel.deskAgent!.event!.name!);
+    prefs.setString('accessToken', deskAgentModel.accessToken!);
+
+    //for debugging , to remove
     log("shared prefrences");
-    print("sharedddd: ${deskAgentModel.deskAgent!.id!}");
+    print("sharedddd: ${deskAgentModel.accessToken!}");
     return prefs.commit();
   }
 
@@ -26,6 +29,7 @@ class UserPreferences {
     String? username = prefs.getString("userName");
     String? eventId = prefs.getString("eventId");
     String? eventname = prefs.getString("eventName");
+    String? accessToken = prefs.getString("accessToken");
 
     return DeskAgentModel(
       deskAgent: DeskAgent(
@@ -36,6 +40,7 @@ class UserPreferences {
           name: eventname,
         ),
       ),
+      accessToken: accessToken,
     );
   }
 

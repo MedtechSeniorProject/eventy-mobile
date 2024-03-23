@@ -48,6 +48,7 @@ class _ScanScreenState extends State<ScanScreen> {
           IconButton(
               icon: const Icon(Icons.exit_to_app),
               onPressed: () {
+                controller?.pauseCamera();
                 AuthenticationProvider().logOut(context);
               }),
         ],

@@ -8,14 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-//TEST , try again with connection
-
 class AddAttendeeProvider extends ChangeNotifier {
-  //TOREMOVE
-  //NOTE: should NOT need bearer token to checkin attendee since no token is returned for deskagents
-  final token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uS2V5IjoiNjRjYTVlYzAtOGIzZi00MTliLTliZmUtNjk3ZjhhZWNlZTI3IiwidXNlcklkIjoiOWIxOGVkY2QtMGYyNi00Nzk2LWI3MWMtMGVkMTdjZjE0NGQ4Iiwicm9sZSI6ImV2ZW50bWFuYWdlciIsImlhdCI6MTcxMTA5NjUzNSwiZXhwIjoxNzExMTgyOTM1fQ.K2lVJS5MR_THdZta-ansD4M1tOnDG632qW_ZMLB2TMA";
-
   ///Setters
   bool _isLoading = false;
   String _resMessage = '';
@@ -37,6 +30,7 @@ class AddAttendeeProvider extends ChangeNotifier {
 
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final eventID = userProvider.deskAgent.deskAgent!.event!.id;
+    final accessToken = userProvider.deskAgent.accessToken;
 
     final body = {"name": name, "email": email};
 
@@ -45,7 +39,7 @@ class AddAttendeeProvider extends ChangeNotifier {
           body: jsonEncode(body),
           headers: {
             "Content-Type": "application/json",
-            'Authorization': 'Bearer $token',
+            'Authorization': 'Bearer $accessToken',
           });
       if (req.statusCode == 200 || req.statusCode == 201) {
         final Map<String, dynamic> res = json.decode(req.body);
@@ -75,6 +69,7 @@ class AddAttendeeProvider extends ChangeNotifier {
 
         //for debugging, to remove
         log("FAILLLLL");
+        log(accessToken!);
         log(res);
         _isLoading = false;
         notifyListeners();

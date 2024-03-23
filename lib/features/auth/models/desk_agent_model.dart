@@ -6,20 +6,23 @@ var  myDeskAgentModel = DeskAgentModel.fromJson(map);
 
 class DeskAgentModel {
   DeskAgent? deskAgent;
+  String? accessToken;
 
-  DeskAgentModel({this.deskAgent});
+  DeskAgentModel({this.deskAgent, this.accessToken});
 
   DeskAgentModel.fromJson(Map<String, dynamic> json) {
     deskAgent = json['deskAgent'] != null
-        ? DeskAgent.fromJson(json['deskAgent'])
+        ? new DeskAgent.fromJson(json['deskAgent'])
         : null;
+    accessToken = json['accessToken'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (deskAgent != null) {
-      data['deskAgent'] = deskAgent!.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.deskAgent != null) {
+      data['deskAgent'] = this.deskAgent!.toJson();
     }
+    data['accessToken'] = this.accessToken;
     return data;
   }
 }
@@ -34,15 +37,15 @@ class DeskAgent {
   DeskAgent.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     username = json['username'];
-    event = json['event'] != null ? Event.fromJson(json['event']) : null;
+    event = json['event'] != null ? new Event.fromJson(json['event']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = id;
-    data['username'] = username;
-    if (event != null) {
-      data['event'] = event!.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['username'] = this.username;
+    if (this.event != null) {
+      data['event'] = this.event!.toJson();
     }
     return data;
   }
@@ -58,7 +61,7 @@ class Event {
   String? startTime;
   String? endTime;
   bool? isArchived;
-  List<Attendee>? attendees;
+  List<Attendees>? attendees;
 
   Event(
       {this.id,
@@ -83,9 +86,9 @@ class Event {
     endTime = json['endTime'];
     isArchived = json['isArchived'];
     if (json['attendees'] != null) {
-      attendees = <Attendee>[];
+      attendees = <Attendees>[];
       json['attendees'].forEach((v) {
-        attendees!.add(Attendee.fromJson(v));
+        attendees!.add(new Attendees.fromJson(v));
       });
     }
   }
@@ -108,16 +111,16 @@ class Event {
   }
 }
 
-class Attendee {
+class Attendees {
   String? id;
   String? name;
   String? email;
   bool? isInvited;
   bool? hasAttended;
 
-  Attendee({this.id, this.name, this.email, this.isInvited, this.hasAttended});
+  Attendees({this.id, this.name, this.email, this.isInvited, this.hasAttended});
 
-  Attendee.fromJson(Map<String, dynamic> json) {
+  Attendees.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];
