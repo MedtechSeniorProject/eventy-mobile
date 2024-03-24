@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigate() {
-    Future.delayed(const Duration(seconds: 2600), () {
+    Future.delayed(const Duration(seconds: 3), () {
       UserPreferences().getDeskAgent().then((value) {
         if (value.accessToken == null) {
           Navigator.push(
