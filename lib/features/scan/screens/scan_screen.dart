@@ -73,7 +73,7 @@ class _ScanScreenState extends State<ScanScreen> {
                         else
                           const Text('Scan a code'),
 
-                        //default flash and flip camera buttons --> TO DECIDE ON
+                        //TOFIX: default flash and flip camera buttons --> TO DECIDE ON
                         // Row(
                         //   mainAxisAlignment: MainAxisAlignment.center,
                         //   crossAxisAlignment: CrossAxisAlignment.center,
@@ -143,7 +143,8 @@ class _ScanScreenState extends State<ScanScreen> {
                                               context: context);
                                         } else {
                                           await controller?.pauseCamera();
-
+                                          //@SAHAR: passing context is not the best practice --> try to optimize, sinon it works so...
+                                          //--> look into ChangeNotifierProxyProvider : bridge widget
                                           scan.checkinAttendee(
                                             attendeeId: result!.code!,
                                             context: context,
@@ -203,6 +204,7 @@ class _ScanScreenState extends State<ScanScreen> {
   //
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
+    //TOFIX: replace all mediaQuery with Dimensions from app_sizes.dart
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
         ? 150.0

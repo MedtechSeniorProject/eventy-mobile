@@ -24,7 +24,7 @@ class AuthenticationProvider extends ChangeNotifier {
   void loginUser({
     required String username,
     required String password,
-    BuildContext? context,
+    required BuildContext context,
   }) async {
     _isLoading = true;
     notifyListeners();
@@ -50,10 +50,10 @@ class AuthenticationProvider extends ChangeNotifier {
         UserPreferences().saveDeskAgent(authUser);
         notifyListeners();
 
-        //setting the deskAgentModel from the UserProvider
-        Provider.of<UserProvider>(context!, listen: false).setUser(authUser);
+        //setting the deskAgent values of the UserProvider
+        Provider.of<UserProvider>(context, listen: false).setUser(authUser);
 
-        Navigator.push(context!,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const ScanScreen()));
       } else {
         final res = json.decode(req.body);

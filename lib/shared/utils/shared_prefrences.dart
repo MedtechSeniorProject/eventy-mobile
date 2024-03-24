@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 // We will use the shared_preferences package to store the users' data locally
 
 class UserPreferences {
-  //
+  //@SAHAR: could just turn it into saveToken and getToken
   Future<bool> saveDeskAgent(DeskAgentModel deskAgentModel) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
