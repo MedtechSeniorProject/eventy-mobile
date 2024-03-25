@@ -1,13 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:eventy_mobile/features/add_manually/screens/add_manually_screen.dart';
-import 'package:eventy_mobile/features/auth/providers/auth_provider.dart';
-import 'package:eventy_mobile/features/auth/providers/user_provider.dart';
-import 'package:eventy_mobile/features/auth/widgets/custom_button.dart';
-import 'package:eventy_mobile/features/scan/providers/scan_provider.dart';
-import 'package:eventy_mobile/shared/utils/snack_message.dart';
-import 'package:flutter/foundation.dart';
+import 'package:eventy_mobile/features/features.dart';
+import 'package:eventy_mobile/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -20,8 +16,6 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanScreenState extends State<ScanScreen> {
-  // String attendeeId = "19bb0839-1025-4028-822e-5bbf450d6569";
-//
   Barcode? result;
   late dynamic test;
   String? guestData;
@@ -42,153 +36,114 @@ class _ScanScreenState extends State<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //for debugging, to pause camera
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     await controller?.pauseCamera();
+      //   },
+      // ),
       appBar: AppBar(
-        title: const Text('Scan Screen'),
-        actions: [
-          IconButton(
-              icon: const Icon(Icons.exit_to_app),
+        leading: Transform.flip(
+          flipX: true,
+          child: IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Colors.grey[850],
+              ),
               onPressed: () {
                 controller?.pauseCamera();
                 AuthenticationProvider().logOut(context);
               }),
-        ],
+        ),
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: const Text('Scan Invite'),
       ),
       body: Consumer<UserProvider>(
         builder: (context, user, child) {
           return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Stack(
               children: <Widget>[
-                Expanded(flex: 4, child: _buildQrView(context)),
-                Expanded(
-                  flex: 1,
-                  child: FittedBox(
-                    fit: BoxFit.contain,
+                Align(
+                    alignment: Alignment.center, child: _buildQrView(context)),
+                //
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding:
+                        EdgeInsets.only(bottom: Dimensions.screenHeight! * 2),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        if (result != null)
-                          Text(
-                              'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-                        else
-                          const Text('Scan a code'),
+                        //FOR Debugging to display scanned code value
+                        // if (result != null)
+                        //   Text(
+                        //       'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                        // else
+                        //   const Text('Scan a code'),
 
-                        //TOFIX: default flash and flip camera buttons --> TO DECIDE ON
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   crossAxisAlignment: CrossAxisAlignment.center,
-                        //   children: <Widget>[
-                        //     Container(
-                        //       margin: const EdgeInsets.all(8),
-                        //       child: ElevatedButton(
-                        //           onPressed: () async {
-                        //             await controller?.toggleFlash();
-                        //             setState(() {});
-                        //           },
-                        //           child: FutureBuilder(
-                        //             future: controller?.getFlashStatus(),
-                        //             builder: (context, snapshot) {
-                        //               return Text('Flash: ${snapshot.data}');
-                        //             },
-                        //           )),
-                        //     ),
-                        //     Container(
-                        //       margin: const EdgeInsets.all(8),
-                        //       child: ElevatedButton(
-                        //           onPressed: () async {
-                        //             await controller?.flipCamera();
-                        //             setState(() {});
-                        //           },
-                        //           child: FutureBuilder(
-                        //             future: controller?.getCameraInfo(),
-                        //             builder: (context, snapshot) {
-                        //               if (snapshot.data != null) {
-                        //                 return Text(
-                        //                     'Camera facing ${describeEnum(snapshot.data!)}');
-                        //               } else {
-                        //                 return const Text('loading');
-                        //               }
-                        //             },
-                        //           )),
-                        //     )
-                        //   ],
-                        // ),
-
-                        Row(
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                //consumer button
-                                Consumer<ScanProvider>(
-                                    builder: (context, scan, child) {
-                                  WidgetsBinding.instance
-                                      .addPostFrameCallback((_) {
-                                    if (scan.resMessage != '') {
-                                      showMessage(
-                                          message: scan.resMessage,
-                                          context: context);
-                                      scan.clear();
-                                    }
-                                  });
-                                  return SizedBox(
-                                    width: 150,
-                                    child: customButton(
-                                      text: 'scan code',
-                                      tap: () async {
-                                        if (result!.code!.isEmpty) {
-                                          showMessage(
-                                              message: "Invalid code",
-                                              context: context);
-                                        } else {
-                                          await controller?.pauseCamera();
-                                          //@SAHAR: passing context is not the best practice --> try to optimize, sinon it works so...
-                                          //--> look into ChangeNotifierProxyProvider : bridge widget
-                                          scan.checkinAttendee(
-                                            attendeeId: result!.code!,
-                                            context: context,
-                                          );
-                                        }
-                                      },
-                                      context: context,
-                                      status: scan.isLoading,
-                                    ),
-                                  );
-                                }),
-
-                                //
-                                Container(
-                                  margin: const EdgeInsets.all(8),
-                                  child: ElevatedButton(
-                                    onPressed: () async {
-                                      // await controller?.resumeCamera();
-                                      await controller?.pauseCamera();
-                                    },
-                                    child: const Text('resume',
-                                        style: TextStyle(fontSize: 20)),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(8),
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  await controller?.pauseCamera();
-
-                                  Navigator.push(
-                                      context!,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const AddManuallyScreen()));
-                                },
-                                child: const Text('Add Manually',
-                                    style: TextStyle(fontSize: 20)),
-                              ),
-                            ),
-                          ],
+                        /////
+                        Consumer<ScanProvider>(builder: (context, scan, child) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            //TOFIX: change showMessage according the resMessage value
+                            if (scan.resMessage != '') {
+                              showMessage(
+                                message: scan.resMessage,
+                                context: context,
+                                color: AppColors.success,
+                              );
+                              scan.clear();
+                            }
+                          });
+                          return MySimpleButton(
+                            color: AppColors.secondary,
+                            text: 'Scan Code',
+                            tap: () async {
+                              if (result!.code!.isEmpty) {
+                                showMessage(
+                                    message: "Invalid code",
+                                    color: AppColors.success,
+                                    icon: Icons.crisis_alert_sharp,
+                                    context: context);
+                              } else {
+                                // await controller?.pauseCamera();
+                                //@SAHAR: passing context is not the best practice --> try to optimize, sinon it works so...
+                                //--> look into ChangeNotifierProxyProvider : bridge widget
+                                scan.checkinAttendee(
+                                  attendeeId: result!.code!,
+                                  context: context,
+                                );
+                              }
+                            },
+                            status: scan.isLoading,
+                          );
+                        }),
+                        MySimpleButton(
+                          color: AppColors.white,
+                          status: false,
+                          text: 'Add Manually',
+                          tap: () async {
+                            await controller?.pauseCamera();
+                            Navigator.pushNamed(context, "/add");
+                          },
                         ),
+
+                        /////
+                        /////   TODO: default flash button --> TO DECIDE ON
+                        // Container(
+                        //   margin: const EdgeInsets.all(8),
+                        //   child: ElevatedButton(
+                        //       onPressed: () async {
+                        //         await controller?.toggleFlash();
+                        //         setState(() {});
+                        //       },
+                        //       child: FutureBuilder(
+                        //         future: controller?.getFlashStatus(),
+                        //         builder: (context, snapshot) {
+                        //           return Text('Flash: ${snapshot.data}');
+                        //         },
+                        //       )),
+                        // ),
                       ],
                     ),
                   ),
@@ -203,8 +158,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
   //
   Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    //TOFIX: replace all mediaQuery with Dimensions from app_sizes.dart
+    // For this example we check what the width or height of the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
         ? 150.0
