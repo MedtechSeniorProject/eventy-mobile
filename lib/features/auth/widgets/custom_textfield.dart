@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:eventy_mobile/shared/constants/app_colors.dart';
 import 'package:eventy_mobile/shared/constants/app_sizes.dart';
 import 'package:eventy_mobile/shared/constants/text_styles.dart';

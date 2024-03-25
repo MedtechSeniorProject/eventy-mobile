@@ -1,9 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:eventy_mobile/shared/shared.dart';
 import 'package:flutter/material.dart';
 
 class MyCustomButton extends StatelessWidget {
   MyCustomButton({super.key, this.isBoxShadowVisible, this.text, this.status});
-  late bool? status = false;
+  bool? status = false;
   final bool? isBoxShadowVisible;
   final String? text;
 
