@@ -2,6 +2,7 @@ import 'package:eventy_mobile/features/add_manually/providers/add_attendee_provi
 import 'package:eventy_mobile/features/auth/providers/auth_provider.dart';
 import 'package:eventy_mobile/features/auth/providers/user_provider.dart';
 import 'package:eventy_mobile/features/scan/providers/scan_provider.dart';
+import 'package:eventy_mobile/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +24,14 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ScanProvider()),
         ChangeNotifierProvider(create: (_) => AddAttendeeProvider()),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.orange,
+          textSelectionTheme: const TextSelectionThemeData(
+            selectionHandleColor: AppColors.accent,
+            cursorColor: Colors.black,
+          ),
+        ),
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),
       ),
