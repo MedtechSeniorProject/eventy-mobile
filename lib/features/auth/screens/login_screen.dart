@@ -109,7 +109,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           if (auth.resMessage != '') {
                             showMessage(
-                                message: auth.resMessage, context: context);
+                              message: auth.resMessage,
+                              context: context,
+                              color: AppColors.success,
+                            );
 
                             ///Clear the response message to avoid duplicate
                             auth.clear();
@@ -123,6 +126,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 _password.text.isEmpty) {
                               showMessage(
                                   message: "All fields are required",
+                                  color: AppColors.error,
+                                  icon: Icons.priority_high_rounded,
                                   context: context);
                             } else {
                               auth.loginUser(

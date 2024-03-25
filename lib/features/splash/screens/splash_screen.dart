@@ -57,19 +57,11 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 3), () {
       UserPreferences().getDeskAgent().then((value) {
         if (value.accessToken == null) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const LoginScreen()),
-          );
-          //TOFIX: routing names
-          // Navigator.pushNamed(context, '/login');
+          Navigator.pushNamed(context, "/login");
         } else {
           Provider.of<UserProvider>(context, listen: false).setUser(value);
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ScanScreen()),
-          );
+          Navigator.pushNamed(context, "/scan");
         }
       });
     });

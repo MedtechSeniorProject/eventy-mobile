@@ -5,6 +5,8 @@ class AppColors {
   /// App primary color
   static const Color primary = Color(0xffF16E00);
 
+  static const Color secondary = Color.fromARGB(255, 255, 130, 28);
+
   /// App secondary color
   static const Color accent = Color(0xffD26000);
 
@@ -17,11 +19,11 @@ class AppColors {
   ///Buttons shadow color
   static const Color shadow = Color(0xff0E0E0E);
 
-  //STYLE: to add alert dialogs background color
+  static const Color error = Color.fromARGB(255, 245, 90, 63);
 
-  /// App secondary color
-  static const Color error = Color(0xffFC698C);
+  static const Color success = Color.fromARGB(255, 255, 106, 19);
 
+//STYLE: to change this
   /// Light grey color
   static const Color lightGrey = Color(0xffAAB8C2);
 

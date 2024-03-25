@@ -53,8 +53,7 @@ class AuthenticationProvider extends ChangeNotifier {
         //setting the deskAgent values of the UserProvider
         Provider.of<UserProvider>(context, listen: false).setUser(authUser);
 
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ScanScreen()));
+        Navigator.pushReplacementNamed(context, "/scan");
       } else {
         final res = json.decode(req.body);
         _resMessage = res['message'];
@@ -80,10 +79,7 @@ class AuthenticationProvider extends ChangeNotifier {
 
   void logOut(BuildContext context) async {
     UserPreferences().clearPrefrences();
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
-    );
+    Navigator.pushNamed(context, "/login");
   }
 
   void clear() {

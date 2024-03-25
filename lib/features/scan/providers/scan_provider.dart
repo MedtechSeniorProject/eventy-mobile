@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:eventy_mobile/features/auth/providers/user_provider.dart';
 import 'package:eventy_mobile/features/scan/models/attendee_response_model.dart';
-import 'package:eventy_mobile/features/scan/screens/details_screen.dart';
 import 'package:eventy_mobile/shared/utils/app_url.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -56,8 +55,7 @@ class ScanProvider extends ChangeNotifier {
         notifyListeners();
         setAttendeeDetails(attendeeResponseModel);
 
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DetailsScreen()));
+        Navigator.pushNamed(context, "/details");
       } else {
         //for debugging, to remove
         log("FAILLLLL");
