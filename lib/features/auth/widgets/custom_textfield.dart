@@ -4,16 +4,18 @@ import 'package:eventy_mobile/shared/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class MyCustomTextField extends StatelessWidget {
-  const MyCustomTextField({
+  MyCustomTextField({
     super.key,
     this.title,
     this.hint,
+    this.node,
     this.controller,
   });
 
   final String? title;
   final String? hint;
   final TextEditingController? controller;
+  late FocusNode? node;
   final int? maxLines = 1;
 
   @override
@@ -38,6 +40,7 @@ class MyCustomTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: TextFormField(
+              focusNode: node,
               controller: controller,
               maxLines: maxLines,
               decoration: InputDecoration(

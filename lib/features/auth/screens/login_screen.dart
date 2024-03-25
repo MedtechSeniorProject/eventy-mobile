@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:eventy_mobile/features/auth/providers/auth_provider.dart';
 import 'package:eventy_mobile/features/auth/widgets/custom_textfield.dart';
 import 'package:eventy_mobile/shared/shared.dart';
@@ -17,8 +15,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _password = TextEditingController();
-  bool isFocused1 = false;
-  bool isFocused2 = false;
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
 
   bool _isBoxShadowVisible = true;
 
@@ -87,37 +85,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: Dimensions.screenHeight! * 5,
                       ),
 
-                      /// Textfields
-                      // using FocusScope to conditionally render the bottomRight Align widget
-                      //TOFIX: focus logic error on first focus attempt ?? then it works fine
-                      //ONE SOLUTION could be to create two isScrolling vars and assign each one to a textFormField
-                      //---> that way there would be no conflict
-                      FocusScope(
-                        onFocusChange: (focus) {
-                          setState(() {
-                            isFocused1 = focus;
-                          });
-                          log("focus1: $focus");
-                        },
-                        child: MyCustomTextField(
-                          title: 'Email',
-                          controller: _username,
-                          hint: 'Enter your username',
-                        ),
+                      MyCustomTextField(
+                        node:
+                            _emailFocusNode, // focusNode to conditionally render the bottomRight widget
+                        title: 'Email',
+                        controller: _username,
+                        hint: 'Enter your username',
                       ),
                       //
-                      FocusScope(
-                        onFocusChange: (focus) {
-                          setState(() {
-                            isFocused2 = focus;
-                          });
-                          log("focus2: $focus");
-                        },
-                        child: MyCustomTextField(
-                          title: 'Password',
-                          controller: _password,
-                          hint: 'Enter your password',
-                        ),
+                      MyCustomTextField(
+                        node: _passwordFocusNode,
+                        title: 'Password',
+                        controller: _password,
+                        hint: 'Enter your password',
                       ),
                       SizedBox(
                         height: Dimensions.screenHeight! * 5,
@@ -166,8 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                //TOFIX: focus
-                if (!isFocused1 || !isFocused2)
+                if (!_passwordFocusNode.hasFocus && !_emailFocusNode.hasFocus)
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Image(
