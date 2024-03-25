@@ -1,12 +1,7 @@
-import 'package:eventy_mobile/features/add_manually/providers/add_attendee_provider.dart';
-import 'package:eventy_mobile/features/auth/providers/auth_provider.dart';
-import 'package:eventy_mobile/features/auth/providers/user_provider.dart';
-import 'package:eventy_mobile/features/scan/providers/scan_provider.dart';
+import 'package:eventy_mobile/features/features.dart';
 import 'package:eventy_mobile/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'features/splash/screens/splash_screen.dart';
 
 void main() {
   runApp(const App());
@@ -33,7 +28,14 @@ class App extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        home: SplashScreen(),
+        home: const SplashScreen(),
+        routes: {
+          "/login": (_) => const LoginScreen(),
+          "/scan": (_) => const ScanScreen(),
+          "/add": (_) => const AddManuallyScreen(),
+          "/details": (_) => const DetailsScreen(),
+          "/forgot": (context) => const ForgotPasswordScreen(),
+        },
       ),
     );
   }
