@@ -31,7 +31,7 @@ class _ScanScreenState extends State<ScanScreen> {
       controller?.pauseCamera();
     }
     //CHANGE BACK TO RESUME
-    controller?.pauseCamera();
+    controller?.resumeCamera();
   }
 
   @override

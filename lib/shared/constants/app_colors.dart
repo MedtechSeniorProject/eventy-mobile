@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-//TOFIX: change app colors
 class AppColors {
   /// App primary color
   static const Color primary = Color(0xffF16E00);
@@ -23,7 +22,6 @@ class AppColors {
 
   static const Color success = Color.fromARGB(255, 255, 106, 19);
 
-//STYLE: to change this
   /// Light grey color
   static const Color lightGrey = Color(0xffAAB8C2);
 
