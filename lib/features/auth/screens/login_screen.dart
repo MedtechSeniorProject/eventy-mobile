@@ -20,14 +20,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isBoxShadowVisible = true;
 
-  void tapDown() => setState(() {
-        _isBoxShadowVisible = false;
-      });
-
-  void tapUp() => setState(() {
-        _isBoxShadowVisible = true;
-      });
-
   @override
   void dispose() {
     _username.clear();
@@ -79,8 +71,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: Dimensions.screenHeight! * 8,
                       ),
 
-                      Text("Hi, Welcome back!",
-                          style: myBoldText(Dimensions.screenWidth! * 6)),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text("Hi, Welcome back!",
+                            style: myBoldText(Dimensions.screenWidth! * 6)),
+                      ),
                       SizedBox(
                         height: Dimensions.screenHeight! * 5,
                       ),
