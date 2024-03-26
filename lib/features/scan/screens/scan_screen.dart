@@ -30,7 +30,8 @@ class _ScanScreenState extends State<ScanScreen> {
     if (Platform.isAndroid) {
       controller?.pauseCamera();
     }
-    controller?.resumeCamera();
+    //CHANGE BACK TO RESUME
+    controller?.pauseCamera();
   }
 
   @override

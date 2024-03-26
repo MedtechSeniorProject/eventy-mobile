@@ -20,7 +20,7 @@ class MyCustomButton extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 40),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: status == false ? AppColors.white : AppColors.white,
+          color: AppColors.white,
           border: Border.all(
             color: Colors.black,
             width: 2,
